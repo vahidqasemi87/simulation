@@ -1,0 +1,225 @@
+﻿@{
+    ViewData["Title"] = "Answer";
+}
+
+
+<div class="container">
+    @{int[] res1 = new int[20];}
+    @{int[] res2 = new int[20];}
+    @{int[] sumRes1 = new int[20];}
+    <br />
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col-md-6">
+                <div>
+                    <h5 class="text-center">جدول مدت های بین دو ورود</h5>
+                    <br>
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>مدت های بین دو ورود</th>
+                                <th>احتمال</th>
+                                <th>احتمال تجمعی</th>
+                                <th>تخصیص ارقام تصادفی</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>0/125</td>
+                                <td>0/125</td>
+                                <td>001-125</td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>0/125</td>
+                                <td>0/250</td>
+                                <td>126-250</td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                                <td>0/125</td>
+                                <td>0/375</td>
+                                <td>251-375</td>
+                            </tr>
+                            <tr>
+                                <td>4</td>
+                                <td>0/125</td>
+                                <td>0/500</td>
+                                <td>376-500</td>
+                            </tr>
+                            <tr>
+                                <td>5</td>
+                                <td>0/125</td>
+                                <td>0/625</td>
+                                <td>501-625</td>
+                            </tr>
+                            <tr>
+                                <td>6</td>
+                                <td>0/125</td>
+                                <td>0/750</td>
+                                <td>626-750</td>
+                            </tr>
+                            <tr>
+                                <td>7</td>
+                                <td>0/125</td>
+                                <td>0/875</td>
+                                <td>751-875</td>
+                            </tr>
+                            <tr>
+                                <td>8</td>
+                                <td>0/125</td>
+                                <td>1/000</td>
+                                <td>876-000</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div>
+                    <h5 class="text-center">توزیع مدت های خدمت</h5>
+                    <br>
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>مدت خدمت دهی</th>
+                                <th>احتمال</th>
+                                <th>احتمال تجمعی</th>
+                                <th>تخصیص ارقام تصادفی</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>0/10</td>
+                                <td>0/10</td>
+                                <td>01-10</td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>0/20</td>
+                                <td>0/30</td>
+                                <td>11-30</td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                                <td>0/30</td>
+                                <td>0/60</td>
+                                <td>31-60</td>
+                            </tr>
+                            <tr>
+                                <td>4</td>
+                                <td>0/25</td>
+                                <td>0/85</td>
+                                <td>61-85</td>
+                            </tr>
+                            <tr>
+                                <td>5</td>
+                                <td>0/10</td>
+                                <td>0/95</td>
+                                <td>86-95</td>
+                            </tr>
+                            <tr>
+                                <td>6</td>
+                                <td>0/05</td>
+                                <td>1/00</td>
+                                <td>96-00</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr />
+    <div class="col-md-12">
+        <h5 class="text-center">تعیین مدت های بین دو ورود</h5>
+        <br>
+        <div class="row">
+
+            <table class="table table-bordered table-bordered">
+                <thead class="text-center bg-success">
+                    <tr>
+                        <th>مشتری</th>
+                        <th>ارقام تصادفی</th>
+                        <th>مدت بین دو ورود</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (int item in Simulation.Helper.Helper.Rows())
+                    {
+                        <tr>
+                            <td>@item</td>
+                            @{int rnd = @Simulation.Helper.Helper.RandomTable4(item);}
+                            <td>@rnd</td>
+                            <td>@Simulation.Helper.Helper.GetTime(rnd)</td>
+                            @{ res1[item - 1] = Simulation.Helper.Helper.GetTime(rnd); }
+                        </tr>
+
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="col-md-12">
+        <h5 class="text-center">مدت های تولیت شده برای خدمت دهی</h5>
+        <br>
+        <div class="row">
+            <table class="table table-bordered table-bordered">
+                <thead class="text-center bg-success">
+                    <tr>
+                        <th>مشتری</th>
+                        <th>ارقام تصادفی</th>
+                        <th>خدمت دهی</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Simulation.Helper.Helper.Rows())
+                    {
+                        <tr>
+                            <td>@item</td>
+                            @{int rnd2 = @Simulation.Helper.Helper.RandomTable5(item);}
+                            <td>@rnd2</td>
+                            <td>@Simulation.Helper.Helper.GetTimeService(rnd2)</td>
+                            @{ res2[item - 1] = Simulation.Helper.Helper.GetTimeService(rnd2); }
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="col-md-12">
+        <h5 class="text-center">تعیین مدت های بین دو ورود</h5>
+        <br>
+        <div class="row">
+            <table class="table table-bordered table-bordered">
+                <thead>
+                    <tr>
+                        <th>مشتری</th>
+                        <th>مدت سپری شده از آخرین ورود</th>
+                        <th>زمان ورود</th>
+                        <th>مدت خدمت دهی</th>
+                        <th>زمان شروع خدمت</th>
+                        <th>مدت ماندن مشتری در صف</th>
+                        <th>زمان پایان</th>
+                        <th>مدت ماندن مشتری در سیستم</th>
+                        <th>مدت بیکاری</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Simulation.Helper.Helper.Rows())
+                    {
+                        <tr>
+                            <td>@item</td>
+                            <td>@res1[item - 1]</td>
+                            <td></td>
+                            <td>@res2[item - 1]</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<hr>
